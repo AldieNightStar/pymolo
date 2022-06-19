@@ -66,3 +66,23 @@ isSqr(x1, y1, w1, h1, x2, y2, w2, h2)
 WHITE, RED, GREEN, BLUE
 YELLOW, MAGENTA, CYAN
 ```
+
+# Signals (Events)
+* Before object will destroy - please disconnect it from any signals to not have _memory leaks_
+```python
+# New Signal
+on_signal = Signal()
+
+# Connect to signal
+def some_func(evt):
+	print("Event: ", evt)
+on_signal.connect(some_func)
+
+# Disconnect from signal
+on_signal.disconnect(some_func)
+
+# Connect to signal (with Decorator)
+@on_signal.connect
+def some_func2(evt):
+	print("Event: ", evt)
+```

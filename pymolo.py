@@ -46,6 +46,18 @@ def isSqr(x1, y1, w1, h1, x2, y2, w2, h2):
 	if y1 > y2+h2: return False
 	return True
 
+class Signal:
+	def __init__(self):
+		self.funcs = []
+	def connect(self, func):
+		self.funcs.append(func)
+		return func
+	def emit(self, *data):
+		for f in self.funcs:
+			f(*data)
+	def disconnect(self, func):
+		self.funcs.remove(func)
+
 def game(f):
 	if screen == None: init()
 	while True:
