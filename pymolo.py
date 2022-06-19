@@ -1,4 +1,5 @@
 import curses
+import inspect
 
 screen = None
 
@@ -10,8 +11,11 @@ YELLOW = 5
 MAGENTA = 6
 CYAN = 7
 
+world = None
+
 def init():
 	global screen
+	global world
 	screen = curses.initscr()
 	curses.noecho()
 	curses.start_color()
@@ -23,6 +27,7 @@ def init():
 	curses.init_pair(YELLOW, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 	curses.init_pair(MAGENTA, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
 	curses.init_pair(CYAN, curses.COLOR_CYAN, curses.COLOR_BLACK)
+	world = World()
 
 def gprint(x, y, text, color=WHITE):
 	try: screen.addstr(y,x, text, curses.color_pair(color))
@@ -33,6 +38,13 @@ def key(): return screen.getkey()
 class GameEndExc(Exception): pass
 
 def end(): raise GameEndExc()
+
+def isSqr(x1, y1, w1, h1, x2, y2, w2, h2):
+	if x1+w1 < x2: return False
+	if y1+h1 < y2: return False
+	if x1 > x2+w2: return False
+	if y1 > y2+h2: return False
+	return True
 
 def game(f):
 	if screen == None: init()
