@@ -11,11 +11,8 @@ YELLOW = 5
 MAGENTA = 6
 CYAN = 7
 
-world = None
-
 def init():
 	global screen
-	global world
 	screen = curses.initscr()
 	curses.noecho()
 	curses.start_color()
@@ -27,13 +24,13 @@ def init():
 	curses.init_pair(YELLOW, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 	curses.init_pair(MAGENTA, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
 	curses.init_pair(CYAN, curses.COLOR_CYAN, curses.COLOR_BLACK)
-	world = World()
 
 def gprint(x, y, text, color=WHITE):
 	try: screen.addstr(y,x, text, curses.color_pair(color))
 	except: pass
 
-def key(): return screen.getkey()
+def key():
+	return screen.getkey()
 
 class GameEndExc(Exception): pass
 
@@ -58,12 +55,20 @@ class Signal:
 	def disconnect(self, func):
 		self.funcs.remove(func)
 
+def rect(x, y, w, h, text, shift=0):
+	for _y in range(h):
+		for _x in range(w):
+			s = text[(shift+_x+_y)%len(text)]
+			gprint(x+_x, y+_y, s)
+
 def game(f):
 	if screen == None: init()
+	t = 0
 	while True:
 		screen.clear()
 		try:
-			f()
+			f(t)
+			t+=1
 		except GameEndExc:
 			break
 		screen.refresh()

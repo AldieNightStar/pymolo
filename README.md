@@ -46,8 +46,9 @@ def play():
 # API
 ```python
 # Start game loop
+#   time:int - each frame it will +1
 @game
-def game(): pass
+def game(time): pass
 
 # Print text at some pos
 # Use it inside game loop
