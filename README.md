@@ -13,22 +13,12 @@ class Player:
 	x: int
 	y: int
 
-# Create world
-world = World()
-
-# Add couple of elements
-world.append(...)
-world.append(...)
-world.append(...)
-
 # Create player
 p = Player(5, 5)
 
 # Run the game
 @game
 def play():
-	# Draw the world
-	world.draw()
 	# Print player's position
 	gprint(p.x, p.y, "@")
 
@@ -38,6 +28,7 @@ def play():
 	elif k == 'd': p.x += 1
 	elif k == 'w': p.y -= 1
 	elif k == 's': p.y += 1
+	
 	# If user press 'q' game will end
 	if k == 'q':
 		end()
